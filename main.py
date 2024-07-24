@@ -48,3 +48,34 @@ class Paddle:
 
     def draw(self, screen):
         screen.blit(self.image, self.rect.topleft)
+
+# Classe da Bola
+class Ball:
+    def _init_(self, size, in_play=True):
+        self.radius = size
+        self.image = pygame.Surface((self.radius*2, self.radius*2), pygame.SRCALPHA)
+        pygame.draw.circle(self.image, RED, (self.radius, self.radius), self.radius)
+        self.rect = self.image.get_rect()
+        self.rect.center = (512, 480)  
+        self.speed = [7, -7]  # Aumentando a velocidade da bola
+        self.in_play = in_play  # Bola aguardando para ser lançada
+
+    def move(self):
+        self.rect.x += self.speed[0]
+        self.rect.y += self.speed[1]
+
+        if self.rect.left <= 0 or self.rect.right >= 1024:  
+            self.speed[0] = -self.speed[0]
+        if self.rect.top <= 0:
+            self.speed[1] = -self.speed[1]
+
+    def increase_speed(self):
+        self.speed[0] *= 1.05
+        self.speed[1] *= 1.05
+
+    def reset(self, paddle_rect):
+        self.rect.midbottom = paddle_rect.midtop
+        self.in_play = False
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect.topleft)
