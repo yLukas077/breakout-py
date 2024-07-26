@@ -1,98 +1,89 @@
 import pygame
+import random
 
-# Inicialização do Pygame
 pygame.init()
 
-# Configurações da Tela
-screen = pygame.display.set_mode((1024, 960))  
+screen_info = pygame.display.Info()
+screen_width = int(screen_info.current_w * 0.5)
+screen_height = int(screen_info.current_h * 0.8)
+screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Breakout")
 
-# Cores
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-ORANGE = (255, 165, 0)
-YELLOW = (255, 255, 0)
 
-# Classe do Jogador (Barra)
 class Paddle:
     def __init__(self):
-        # Inicializa a barra do jogador
-        self.width = 150  # Largura inicial da barra
-        self.height = 10  # Altura da barra
+        self.width = 105
+        self.height = 10
         self.image = pygame.Surface((self.width, self.height))
         self.image.fill(BLUE)
         self.rect = self.image.get_rect()
-        self.rect.midbottom = (512, 940)  # Posição inicial da barra na tela
-        self.speed = 20  # Velocidade de movimento da barra
+        self.rect.midbottom = (screen_width // 2, screen_height - 20)
+        self.speed = 20
 
     def move(self, dx):
-        # Move a barra do jogador horizontalmente.
-        # dx (int): Direção do movimento (-1 para esquerda, 1 para direita)
         self.rect.x += dx * self.speed
-        # Impede a barra de sair da tela
         if self.rect.left < 0:
             self.rect.left = 0
-        if self.rect.right > 1024:
-            self.rect.right = 1024
+        if self.rect.right > screen_width:
+            self.rect.right = screen_width
 
-    def increase_size(self):
-        # Aumenta o tamanho da barra em 10%
-        self.width = int(self.width * 1.1)
-        self.image = pygame.Surface((self.width, self.height))
-        self.image.fill(BLUE)
-        self.rect = self.image.get_rect(center=self.rect.center)
-
-    def reset_size(self):
-        # Reseta o tamanho da barra para o valor inicial
-        self.width = 150
-        self.image = pygame.Surface((self.width, self.height))
-        self.image.fill(BLUE)
-        self.rect = self.image.get_rect(midbottom=(512, 940))
-
-    def draw(self, screen):
-        # Desenha a barra na tela
+    def draw(self):
         screen.blit(self.image, self.rect.topleft)
 
-# Classe da Bola
 class Ball:
-    def __init__(self, size, in_play=True):
-        # Inicializa a bola.
-        # size (int): Raio da bola
-        # in_play (bool): Indica se a bola está em jogo ou aguardando lançamento
-        self.radius = size
-        self.image = pygame.Surface((self.radius*2, self.radius*2), pygame.SRCALPHA)
+    def __init__(self, x, y):
+        self.radius = 3
+        self.image = pygame.Surface((self.radius * 2, self.radius * 2), pygame.SRCALPHA)
         pygame.draw.circle(self.image, RED, (self.radius, self.radius), self.radius)
         self.rect = self.image.get_rect()
-        self.rect.center = (512, 480)  # Posição inicial da bola na tela
-        self.speed = [7, -7]  # Velocidade inicial da bola
-        self.in_play = in_play  # Estado da bola (em jogo ou aguardando lançamento)
+        self.rect.center = (x, y)
+        self.speed = [0, 0]
+        self.in_wait = True
 
     def move(self):
-        # Movimenta a bola na tela
-        self.rect.x += self.speed[0]
-        self.rect.y += self.speed[1]
+        if not self.in_wait:
+            self.rect.x += self.speed[0]
+            self.rect.y += self.speed[1]
+            if self.rect.left <= 0 or self.rect.right >= screen_width:
+                self.speed[0] = -self.speed[0]
+            if self.rect.top <= 0:
+                self.speed[1] = -self.speed[1]
 
-        # Verifica colisão com as laterais da tela
-        if self.rect.left <= 0 or self.rect.right >= 1024:
-            self.speed[0] = -self.speed[0]
-        # Verifica colisão com o topo da tela
-        if self.rect.top <= 0:
-            self.speed[1] = -self.speed[1]
-
-    def increase_speed(self):
-        # Aumenta a velocidade da bola em 5%
-        self.speed[0] *= 1.05
-        self.speed[1] *= 1.05
-
-    def reset(self, paddle_rect):
-        # Reseta a posição da bola e a define como não em jogo.
-        # paddle_rect (pygame.Rect): Retângulo da barra do jogador
-        self.rect.midbottom = paddle_rect.midtop
-        self.in_play = False
-
-    def draw(self, screen):
-        # Desenha a bola na tela
+    def draw(self):
         screen.blit(self.image, self.rect.topleft)
+
+    def reset_position(self, paddle):
+        self.rect.centerx = paddle.rect.centerx
+        self.rect.bottom = paddle.rect.top
+
+class Block:
+    def __init__(self, x, y, width, height):
+        self.image = pygame.Surface((width, height))
+        self.image.fill(WHITE)
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
+
+    def draw(self):
+        screen.blit(self.image, self.rect.topleft)
+
+paddle = Paddle()
+balls = [Ball(screen_width // 2, screen_height // 2)]
+
+block_width = 16
+block_height = 16
+block_spacing = 4
+blocks_area_width = screen_width * 0.9
+num_blocks_x = int(blocks_area_width // (block_width + block_spacing))
+x_start = (screen_width - (num_blocks_x * (block_width + block_spacing))) // 2
+
+blocks = [Block(x * (block_width + block_spacing) + x_start, y * (block_height + block_spacing) + 50, block_width, block_height) 
+          for x in range(num_blocks_x) for y in range(10)]
+
+score = 0
+running = True
+game_over = False
+show_start_screen = True
