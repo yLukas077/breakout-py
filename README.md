@@ -24,13 +24,9 @@ Este é um projeto para a disciplina de Introdução à Programação na Univers
 
 - **Blocos**: Objetos estáticos que a bola deve destruir para o jogador ganhar pontos. Os blocos podem ter diferentes cores e efeitos ao serem destruídos.
 
-- **Plus One (Vida Extra)**: Um power-up que, quando coletado, concede ao jogador uma vida extra, permitindo que ele continue jogando caso perca uma bola.
-
 - **Ball Duplicate (Multiplicador de Bolas)**: Um power-up que duplica o número de bolas em jogo, aumentando a dificuldade e o potencial de destruição de blocos.
 
 - **Extend Bar (Aumento de Barra)**: Um power-up que aumenta temporariamente o tamanho da barra, facilitando o controle da bola.
-
-- **Extra Life**: Similar ao Plus One, concede uma vida extra ao jogador.
 
 ### Fluxograma Lógico do Código
 
