@@ -1,5 +1,5 @@
 
-## Projeto P1 - BROKEOUT
+## Projeto P1 - BREAKOUT
 
 ### Logo do game
 
@@ -52,7 +52,7 @@ Este é um projeto para a disciplina de Introdução à Programação na Univers
 
 ---
 
-## README do Projeto "Brokeout"
+## README do Projeto "Breakout"
 
 ### Descrição do Projeto
 
@@ -70,7 +70,7 @@ Este é um projeto para a disciplina de Introdução à Programação na Univers
 git clone <URL_DO_REPOSITÓRIO>
 
 # Navegar até o diretório do projeto
-cd brokeout-py
+cd breakout-py
 
 # Instalar as dependências
 pip install pygame
