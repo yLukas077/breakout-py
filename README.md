@@ -22,10 +22,12 @@ Este é um projeto para a disciplina de Introdução à Programação na Univers
   
 - **Bola**: Uma esfera que se move pela tela, rebatendo nas bordas, na barra e nos blocos. O jogador deve evitar que a bola caia abaixo da barra.
 
-- **Blocos**: Objetos estáticos que a bola deve destruir para o jogador ganhar pontos. Os blocos podem ter diferentes cores e efeitos ao serem destruídos.
+- **Blocos**: Objetos estáticos que a bola deve destruir para o jogador ganhar pontos.
 
 - **Ball Duplicate (Multiplicador de Bolas)**: Um power-up que duplica o número de bolas em jogo, aumentando a dificuldade e o potencial de destruição de blocos.
 
+- **Extra Ball (Bola extra)**: Um power-up que adiciona uma bola a mais em campo.
+  
 - **Extend Bar (Aumento de Barra)**: Um power-up que aumenta temporariamente o tamanho da barra, facilitando o controle da bola.
 
 ### Fluxograma Lógico do Código
