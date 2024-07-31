@@ -13,7 +13,7 @@ Este é um projeto para a disciplina de Introdução à Programação na Univers
 
 - **Lucas Vinícius**: Desenvolvimento e planejamento da lógica geral do jogo, parte da física e resolução de bugs, controle da barra e movimento da bola.
 - **Juan Henrique**: Design visual, classes dos objetos e suas propiedades, criação dos assets de jogo, incluindo blocos, barra, bola, e power-ups.
-- **Victor Daniel**: Implementação de parte da física de jogo, incluindo detecção de colisão dos blocos, música de fundo e efeitos sonoros.
+- **Victor Daniel**: Implementação de parte da física do jogo, incluindo detecção de colisão dos blocos, música de fundo e efeitos sonoros.
 - **Levi Serrano**: Desenvolvimento e implementação de power-ups e suas funcionalidades.
 
 ### Objetos
