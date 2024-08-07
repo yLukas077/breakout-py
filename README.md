@@ -29,10 +29,6 @@ Este é um projeto para a disciplina de Introdução à Programação na Univers
   
 - **Extend Bar (Aumento de Barra)**: Um power-up que aumenta temporariamente o tamanho da barra, facilitando o controle da bola.
 
-### Fluxograma Lógico do Código
-
-![Fluxograma Lógico](images/fluxograma.png)
-
 ### Ferramentas, Bibliotecas, Frameworks e Conceitos de Programação Aplicados no Projeto
 
 - **Linguagem de Programação**: Python
@@ -63,7 +59,7 @@ Este é um projeto para a disciplina de Introdução à Programação na Univers
 
 ### Descrição do Projeto
 
-(*[Descrição do projeto]*)
+O nosso Breakout é uma recriação moderna do clássico jogo de arcade desenvolvido em Python usando a biblioteca Pygame. Este projeto foi criado para oferecer uma experiência de jogo divertida e envolvente, ao mesmo tempo que proporciona um excelente exercício de programação e desenvolvimento de jogos. O jogador controla uma raquete para rebater uma bola que destrói blocos na parte superior da tela. O objetivo é destruir todos os blocos para vencer, evitando que a bola caia abaixo da raquete. O jogo inclui power-ups que adicionam bolas extras, duplicam bolas ou aumentam o tamanho da raquete, aumentando a diversão e o desafio.
 
 ### Pré-requisitos
 
@@ -95,12 +91,18 @@ pip install pygame
 
 ### Contribuições
 
-(*[Instruções para quem deseja contribuir com o projeto]*)
+Para contribuir com o projeto, siga estas etapas:
+
+1. Faça um fork do repositório.
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`).
+3. Faça commit das suas alterações (`git commit -m 'Adiciona nova feature'`).
+4. Envie para a branch (`git push origin feature/nova-feature`).
+5. Abra um Pull Request.
 
 ### Licença
 
-(*[Informações sobre a licença do projeto]*)
+Este projeto está licenciado sob a Licença MIT. Consulte o arquivo LICENSE para mais detalhes.
 
 ### Contato
 
-(*[Informações de contato da equipe]*)
+Para dúvidas ou sugestões, entre em contato com a equipe de desenvolvimento pelo email: equipe.breakout1@gmail.com
