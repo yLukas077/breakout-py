@@ -17,7 +17,7 @@ class Block:
         if not self.has_dropped:
             drop_chance = random.randint(1, 100)
             self.has_dropped = True
-            if drop_chance <= 8:
+            if drop_chance <= 10:
                 return PowerUp(self.rect.centerx, self.rect.centery, "extra_ball")
             elif 46 < drop_chance <= 48:
                 return PowerUp(self.rect.centerx, self.rect.centery, "multi_ball")
