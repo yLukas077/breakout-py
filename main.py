@@ -33,14 +33,14 @@ enlarge_paddle_image = pygame.image.load('images/growth-frame.png').convert_alph
 
 # Carregar as músicas de fundo
 pygame.mixer.music.load('sounds/pienso.mp3')
-pygame.mixer.music.set_volume(0.3) 
+pygame.mixer.music.set_volume(0.3)
 pygame.mixer.music.play(-1)  # Toca a música em loop
 
 # Carregar a segunda música
 second_music_path = 'sounds/parapara.mp3'
 
 # Inicializar variáveis de controle para música
-music_playing = 'normal' 
+music_playing = 'normal'
 
 paddle = Paddle(screen_width, screen_height)
 balls = [Ball(screen_width // 2, screen_height // 2)]
@@ -55,7 +55,7 @@ x_start = (screen_width - (num_blocks_x * (block_width + block_spacing))) // 2
 # Cores dos blocos
 block_colors = [BLUE, GREEN, LIGHT_BLUE, ORANGE]
 
-blocks = [Block(x * (block_width + block_spacing) + x_start, y * (block_height + block_spacing) + 50, block_width, block_height, random.choice(block_colors)) 
+blocks = [Block(x * (block_width + block_spacing) + x_start, y * (block_height + block_spacing) + 50, block_width, block_height, random.choice(block_colors))
           for x in range(num_blocks_x) for y in range(10)]
 
 powerups = []
@@ -65,7 +65,7 @@ running = True
 game_over = False
 show_start_screen = True
 winner = False
-start_time = None 
+start_time = None
 end_time = None
 
 # Variáveis para animação de vitória
@@ -87,7 +87,7 @@ while running:
                 running = False
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 show_start_screen = False
-                start_time = time.time() 
+                start_time = time.time()
     elif winner:
         current_time = pygame.time.get_ticks()
         if current_time - start_typing_time > 500:
@@ -95,9 +95,9 @@ while running:
             start_typing_time = current_time
 
         draw_winner_screen(screen, screen_width, screen_height, winner_text, blink_state, extra_ball_image, multi_ball_image, enlarge_paddle_image, score, end_time, start_time, collectables_count)
-        
+
         pygame.mixer.music.stop()  # Parar a música ao entrar na tela de vitória
-        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -106,7 +106,7 @@ while running:
                     pygame.mixer.music.play(-1)  # Reiniciar a música ao reiniciar o jogo
                     paddle = Paddle(screen_width, screen_height)
                     balls = [Ball(screen_width // 2, screen_height // 2)]
-                    blocks = [Block(x * (block_width + block_spacing) + x_start, y * (block_height + block_spacing) + 50, block_width, block_height, random.choice(block_colors)) 
+                    blocks = [Block(x * (block_width + block_spacing) + x_start, y * (block_height + block_spacing) + 50, block_width, block_height, random.choice(block_colors))
                               for x in range(num_blocks_x) for y in range(10)]
                     powerups = []
                     score = 0
@@ -156,7 +156,7 @@ while running:
                     if ball.rect.colliderect(block.rect):
                         ball.handle_collision(block)
 
-                        if not block.has_dropped:  # Certifica-se de que apenas um power-up é gerado por bloco
+                        if not block.has_dropped:
                             powerup = block.spawn_powerup()
                             if powerup:
                                 powerups.append(powerup)
@@ -169,11 +169,11 @@ while running:
                 if collision_detected:
                     break
 
-            if not blocks:  # Se não houver mais blocos, o jogador venceu
+            if not blocks:
                 winner = True
                 end_time = time.time()
-                start_typing_time = pygame.time.get_ticks()  # Inicializa o temporizador de animação
-                pygame.mixer.music.stop()  # Parar a música ao vencer
+                start_typing_time = pygame.time.get_ticks()
+                pygame.mixer.music.stop()
 
             for powerup in powerups[:]:
                 powerup.move()
@@ -196,36 +196,32 @@ while running:
             text = font.render(f"Score: {score}", True, WHITE)
             screen.blit(text, (10, 10))
 
-            if start_time is not None:  # Verificar se o tempo foi inicializado
+            if start_time is not None:
                 current_time = time.time() - start_time
                 current_time_str = time.strftime("%M:%S", time.gmtime(current_time))
                 time_text = font.render(f"Time: {current_time_str}", True, WHITE)
-                screen.blit(time_text, (150, 10)) 
+                screen.blit(time_text, (150, 10))
 
-            # Mostrar vidas
             for i in range(lives):
                 screen.blit(heart_image, (screen_width - 50 - i * 30, 1))
             pygame.display.flip()
             pygame.time.wait(30)
 
-            # Verificar se todas as bolas foram perdidas
-            if all(ball.rect.top > screen_height for ball in balls):  # Verificar se todas as bolas caíram fora da tela
-                balls.clear()  # Remover todas as bolas
-                lives -= 1  # Reduzir uma vida
-                powerups.clear()  # Limpar os power-ups
+            if all(ball.rect.top > screen_height for ball in balls):
+                balls.clear()
+                lives -= 1
+                powerups.clear()
                 if lives == 0:
                     game_over = True
                     end_time = time.time()
-                    pygame.mixer.music.stop()  # Parar a música ao entrar na tela de game over
+                    pygame.mixer.music.stop()
                 else:
-                    balls.append(Ball(screen_width // 2, paddle.rect.top - 10, 0, 0))  # Adicionar nova bola em espera
+                    balls.append(Ball(screen_width // 2, paddle.rect.top - 10, 0, 0))
 
-            music_playing = check_and_change_music(balls, second_music_path, music_playing)  # Verifica e troca a música conforme o número de bolas
+            music_playing = check_and_change_music(balls, second_music_path, music_playing, screen_height)  # Verifica e troca a música conforme o número de bolas
         else:
             draw_game_over_screen(screen, screen_width, screen_height, score, end_time, start_time, extra_ball_image, multi_ball_image, enlarge_paddle_image, collectables_count)
-            
-            pygame.mixer.music.stop()  # Parar a música ao entrar na tela de game over
-
+            pygame.mixer.music.stop()
             pygame.display.flip()
 
             for event in pygame.event.get():
@@ -233,10 +229,10 @@ while running:
                     running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_r:
-                        pygame.mixer.music.play(-1)  # Reiniciar a música ao reiniciar o jogo
+                        pygame.mixer.music.play(-1)
                         paddle = Paddle(screen_width, screen_height)
                         balls = [Ball(screen_width // 2, screen_height // 2)]
-                        blocks = [Block(x * (block_width + block_spacing) + x_start, y * (block_height + block_spacing) + 50, block_width, block_height, random.choice(block_colors)) 
+                        blocks = [Block(x * (block_width + block_spacing) + x_start, y * (block_height + block_spacing) + 50, block_width, block_height, random.choice(block_colors))
                                   for x in range(num_blocks_x) for y in range(10)]
                         powerups = []
                         score = 0

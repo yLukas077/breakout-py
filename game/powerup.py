@@ -33,7 +33,7 @@ class PowerUp:
     def apply_effect(self, balls, paddle, screen_width, screen_height, collectables_count):
         if self.power_type == "extra_ball":
             if balls:
-                active_balls = [ball for ball in balls if not ball.in_wait]
+                active_balls = [ball for ball in balls if not ball.in_wait and ball.rect.top <= screen_height]
                 if active_balls:
                     random_ball = random.choice(active_balls)
                     collectables_count["extra_ball"] += 1
@@ -50,23 +50,18 @@ class PowerUp:
                     new_ball = Ball(x_spawn, y_spawn, speed_x, -speed_y)
                     balls.append(new_ball)
         elif self.power_type == "multi_ball":
-            active_balls = [ball for ball in balls if not ball.in_wait]  # Considerar apenas bolas ativas
-            num_balls = len(active_balls)
+            active_balls = [ball for ball in balls if not ball.in_wait and ball.rect.top <= screen_height]  # Considerar apenas bolas ativas na tela
             collectables_count["multi_ball"] += 1
             new_balls = []
-            for _ in range(num_balls): 
-                random_ball = random.choice(active_balls)
-                speed = (random_ball.speed[0] ** 2 + random_ball.speed[1] ** 2) ** 0.5  # Manter a velocidade da bola original
-                angle = random.uniform(-1.0, 1.0)
-                speed_x = speed * angle
-                speed_y = (speed ** 2 - speed_x ** 2) ** 0.5
-                
-                x_spawn = random_ball.rect.centerx
-                y_spawn = random_ball.rect.centery
+            for ball in active_balls:
+                speed_x, speed_y = ball.speed
+                x_spawn = ball.rect.centerx
+                y_spawn = ball.rect.centery
                 x_spawn = max(screen_width * 0.075, min(x_spawn, screen_width * 0.925))
                 y_spawn = max(screen_height * 0.075, min(y_spawn, screen_height * 0.925))
                 
-                new_ball = Ball(x_spawn, y_spawn, speed_x, -speed_y)
+                # Invertendo os componentes da velocidade para criar o ângulo oposto
+                new_ball = Ball(x_spawn, y_spawn, -speed_x, -speed_y)
                 new_balls.append(new_ball)
             balls.extend(new_balls)
         elif self.power_type == "enlarge_paddle":
