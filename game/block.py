@@ -19,7 +19,7 @@ class Block:
             self.has_dropped = True
             if drop_chance <= 10:
                 return PowerUp(self.rect.centerx, self.rect.centery, "extra_ball")
-            elif 46 < drop_chance <= 48:
+            elif 46 < drop_chance <= 51:
                 return PowerUp(self.rect.centerx, self.rect.centery, "multi_ball")
             elif 60 < drop_chance <= 65:
                 return PowerUp(self.rect.centerx, self.rect.centery, "enlarge_paddle")
