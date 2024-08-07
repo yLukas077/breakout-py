@@ -77,14 +77,14 @@ cd breakout-py
 
 # Instalar as dependências
 pip install pygame
+```
 
-
-### Como Jogar
+# Como Jogar
 
 1. Inicie o jogo executando o script principal:
-   ```bash
+```bash
    python main.py
-   ```
+```
 2. Use as setas do teclado para mover a barra.
 3. Pressione "Espaço" para lançar a bola.
 4. O objetivo é destruir todos os blocos na tela.
