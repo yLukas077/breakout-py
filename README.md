@@ -1,9 +1,8 @@
-
 ## Projeto P1 - BREAKOUT
 
 ### Logo do game
 
-(*[logo do game]*)
+![Logo do Game](images/logo-breakout.png)
 
 ### Resumo do Jogo
 
@@ -32,7 +31,7 @@ Este é um projeto para a disciplina de Introdução à Programação na Univers
 
 ### Fluxograma Lógico do Código
 
-(*[Inserir o fluxograma lógico do código aqui]*)
+![Fluxograma Lógico](assets/fluxograma.png)
 
 ### Ferramentas, Bibliotecas, Frameworks e Conceitos de Programação Aplicados no Projeto
 
@@ -48,7 +47,7 @@ Este é um projeto para a disciplina de Introdução à Programação na Univers
 
 ### Capturas do Jogo
 
-(*[ capturas de tela do jogo aqui]*)
+![Captura de Tela](assets/captura.png)
 
 ---
 
@@ -74,7 +73,7 @@ cd breakout-py
 
 # Instalar as dependências
 pip install pygame
-```
+
 
 ### Como Jogar
 
