@@ -47,7 +47,7 @@ Este é um projeto para a disciplina de Introdução à Programação na Univers
 
 ### Capturas do Jogo
 
-<div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 20px;">
+<div style="display: flex; justify-content: center; padding-left: 40px; flex-wrap: wrap; gap: 20px;">
   <img src="images/captura1.png" alt="Captura de Tela 1" width="300">
   <img src="images/captura2.png" alt="Captura de Tela 2" width="300">
   <img src="images/captura3.png" alt="Captura de Tela 3" width="300">
