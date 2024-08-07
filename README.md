@@ -83,7 +83,7 @@ pip install pygame
 
 1. Inicie o jogo executando o script principal:
 ```bash
-   python main.py
+python main.py
 ```
 2. Use as setas do teclado para mover a barra.
 3. Pressione "Espaço" para lançar a bola.
