@@ -29,6 +29,12 @@ pygame.display.set_icon(icon_image)
 heart_image = pygame.image.load('images/heart-pixel.png')
 heart_image = pygame.transform.scale(heart_image, (50, 50))
 
+# Carregar imagens dos power-ups
+extra_ball_image = pygame.image.load('images/+1-frame.png').convert_alpha()
+multi_ball_image = pygame.image.load('images/x2-frame.png').convert_alpha()
+enlarge_paddle_image = pygame.image.load('images/growth-frame.png').convert_alpha()
+
+
 # Adicionar uma estrutura para armazenar a contagem de coletáveis
 collectables_count = {
     "extra_ball": 0,
@@ -87,13 +93,7 @@ class Ball:
         pygame.draw.circle(self.image, RED, (self.radius, self.radius), self.radius)
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
-        if speed_x == 0 and speed_y == 0:
-            speed = 12  # Velocidade aumentada
-            self.speed = [speed * random.uniform(-1, 1), speed * random.uniform(-1, 1)]
-            magnitude = (self.speed[0] ** 2 + self.speed[1] ** 2) ** 0.5
-            self.speed = [self.speed[0] / magnitude * speed, self.speed[1] / magnitude * speed]
-        else:
-            self.speed = [speed_x, speed_y]
+        self.speed = [speed_x, speed_y] 
         self.in_wait = speed_x == 0 and speed_y == 0
 
     def move(self):
@@ -112,6 +112,26 @@ class Ball:
         self.rect.centerx = paddle.rect.centerx
         self.rect.bottom = paddle.rect.top
 
+    def handle_collision(self, block):
+        if self.rect.colliderect(block.rect):
+            # Detectar colisão horizontal
+            if self.rect.right >= block.rect.left and self.rect.left < block.rect.left:
+                self.speed[0] = -self.speed[0]
+                self.rect.right = block.rect.left
+            elif self.rect.left <= block.rect.right and self.rect.right > block.rect.right:
+                self.speed[0] = -self.speed[0]
+                self.rect.left = block.rect.right
+
+            # Detectar colisão vertical
+            if self.rect.bottom >= block.rect.top and self.rect.top < block.rect.top:
+                self.speed[1] = -self.speed[1]
+                self.rect.bottom = block.rect.top
+            elif self.rect.top <= block.rect.bottom and self.rect.bottom > block.rect.bottom:
+                self.speed[1] = -self.speed[1]
+                self.rect.top = block.rect.bottom
+
+
+
 class Block:
     def __init__(self, x, y, width, height, color):
         self.image = pygame.Surface((width, height))
@@ -127,11 +147,11 @@ class Block:
         if not self.has_dropped:
             drop_chance = random.randint(1, 100)
             self.has_dropped = True
-            if drop_chance <= 10:
+            if drop_chance <= 6:
                 return PowerUp(self.rect.centerx, self.rect.centery, "extra_ball")
             elif 46 < drop_chance <= 48:
                 return PowerUp(self.rect.centerx, self.rect.centery, "multi_ball")
-            elif 60 < drop_chance <= 65:
+            elif 60 < drop_chance <= 62:
                 return PowerUp(self.rect.centerx, self.rect.centery, "enlarge_paddle")
         return None
 
@@ -172,7 +192,6 @@ class PowerUp:
                 speed_x = speed * angle
                 speed_y = (speed ** 2 - speed_x ** 2) ** 0.5
                 
-                # Limitar a área de spawn
                 x_spawn = random_ball.rect.centerx
                 y_spawn = random_ball.rect.centery
                 x_spawn = max(screen_width * 0.075, min(x_spawn, screen_width * 0.925))
@@ -183,14 +202,13 @@ class PowerUp:
         elif self.power_type == "multi_ball":
             num_balls = len(balls)
             collectables_count["multi_ball"] += 1
-            for _ in range(num_balls):  # Duplicar o número de bolas
+            for _ in range(num_balls): 
                 random_ball = random.choice(balls)
                 speed = (random_ball.speed[0] ** 2 + random_ball.speed[1] ** 2) ** 0.5  # Manter a velocidade da bola original
                 angle = random.uniform(-1.0, 1.0)
                 speed_x = speed * angle
                 speed_y = (speed ** 2 - speed_x ** 2) ** 0.5
                 
-                # Limitar a área de spawn
                 x_spawn = random_ball.rect.centerx
                 y_spawn = random_ball.rect.centery
                 x_spawn = max(screen_width * 0.075, min(x_spawn, screen_width * 0.925))
@@ -204,14 +222,14 @@ class PowerUp:
 
 # Carregar as músicas de fundo
 pygame.mixer.music.load('sons/pienso.mp3')
-pygame.mixer.music.set_volume(0.3)  # Define o volume baixo (0.0 a 1.0)
+pygame.mixer.music.set_volume(0.3) 
 pygame.mixer.music.play(-1)  # Toca a música em loop
 
 # Carregar a segunda música
 second_music_path = 'sons/parapara.mp3'
 
 # Inicializar variáveis de controle para música
-music_playing = 'normal'  # Estado inicial da música
+music_playing = 'normal' 
 
 paddle = Paddle()
 balls = [Ball(screen_width // 2, screen_height // 2)]
@@ -236,7 +254,7 @@ running = True
 game_over = False
 show_start_screen = True
 winner = False
-start_time = None  # Inicializar como None
+start_time = None 
 end_time = None
 
 # Variáveis para animação de vitória
@@ -271,7 +289,6 @@ def draw_winner_screen():
     font_large = pygame.font.Font(None, 74)
     font_small = pygame.font.Font(None, 36)
 
-    # Animação de digitação
     if not typing_finished:
         if pygame.time.get_ticks() - start_typing_time > 150:
             if text_index < len(winner_text):
@@ -280,9 +297,8 @@ def draw_winner_screen():
                 start_typing_time = pygame.time.get_ticks()
             else:
                 typing_finished = True
-                start_typing_time = pygame.time.get_ticks()  # Reset para usar no piscar
+                start_typing_time = pygame.time.get_ticks()
 
-    # Piscar o texto após a digitação
     if typing_finished:
         if pygame.time.get_ticks() - start_typing_time > 500:
             blink_state = not blink_state
@@ -294,7 +310,7 @@ def draw_winner_screen():
         text_rect_large = text_large.get_rect(center=(screen_width // 2, screen_height // 2 - 50))
         screen.blit(text_large, text_rect_large)
 
-    if blink_count >= 6:  # 3 vezes piscando
+    if blink_count >= 6:
         text_large = font_large.render(winner_text, True, WHITE)
         screen.blit(text_large, text_rect_large)
         typing_finished = False
@@ -314,15 +330,25 @@ def draw_winner_screen():
     text_rect_congrats = text_congrats.get_rect(center=(screen_width // 2, screen_height // 2 + 70))
     screen.blit(text_congrats, text_rect_congrats)
 
-    y_offset = screen_height // 2 + 100
-    for collectable, count in collectables_count.items():
-        collectable_text = font_small.render(f"You collected {count} {collectable.replace('_', ' ')}", True, WHITE)
-        collectable_rect = collectable_text.get_rect(center=(screen_width // 2, y_offset))
+    icons = [
+        (extra_ball_image, collectables_count["extra_ball"]),
+        (multi_ball_image, collectables_count["multi_ball"]),
+        (enlarge_paddle_image, collectables_count["enlarge_paddle"]),
+    ]
+    
+    y_offset = screen_height // 2 + 120
+    total_width = (len(icons) - 1) * 150  
+    x_offset_start = screen_width // 2 - total_width // 2 - 40  
+    for i, (icon, count) in enumerate(icons):
+        x_offset = x_offset_start + i * 150
+        
+        screen.blit(icon, (x_offset, y_offset))
+        collectable_text = font_small.render(f"{count}x", True, WHITE)
+        collectable_rect = collectable_text.get_rect(midleft=(x_offset + 50, y_offset + 16))
         screen.blit(collectable_text, collectable_rect)
-        y_offset += 30
 
     text_restart = font_small.render("Press R to Restart or Q to Quit", True, WHITE)
-    text_rect_restart = text_restart.get_rect(center=(screen_width // 2, y_offset + 30))
+    text_rect_restart = text_restart.get_rect(center=(screen_width // 2, y_offset + 70))
     screen.blit(text_restart, text_rect_restart)
 
     pygame.display.flip()
@@ -346,18 +372,31 @@ def draw_game_over_screen():
     text_rect_small2 = text_small2.get_rect(center=(screen_width // 2, screen_height // 2 + 50))
     screen.blit(text_small2, text_rect_small2)
 
-    y_offset = screen_height // 2 + 100
-    for collectable, count in collectables_count.items():
-        collectable_text = font_small.render(f"You collected {count} {collectable.replace('_', ' ')}", True, WHITE)
-        collectable_rect = collectable_text.get_rect(center=(screen_width // 2, y_offset))
+    # Desenhar os colecionáveis em uma linha de 3 colunas
+    icons = [
+        (extra_ball_image, collectables_count["extra_ball"]),
+        (multi_ball_image, collectables_count["multi_ball"]),
+        (enlarge_paddle_image, collectables_count["enlarge_paddle"]),
+    ]
+    
+    y_offset = screen_height // 2 + 120
+    total_width = (len(icons) - 1) * 150 
+    x_offset_start = screen_width // 2 - total_width // 2 - 35
+
+    for i, (icon, count) in enumerate(icons):
+        x_offset = x_offset_start + i * 150
+        
+        screen.blit(icon, (x_offset, y_offset))
+        collectable_text = font_small.render(f"{count}x", True, WHITE)
+        collectable_rect = collectable_text.get_rect(midleft=(x_offset + 50, y_offset + 16))
         screen.blit(collectable_text, collectable_rect)
-        y_offset += 30
 
     text_small3 = font_small.render("Press R to Restart or Q to Quit", True, WHITE)
-    text_rect_small3 = text_small3.get_rect(center=(screen_width // 2, y_offset + 30))
+    text_rect_small3 = text_small3.get_rect(center=(screen_width // 2, y_offset + 70))
     screen.blit(text_small3, text_rect_small3)
 
     pygame.display.flip()
+
 
 while running:
     if show_start_screen:
@@ -373,7 +412,7 @@ while running:
                 running = False
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 show_start_screen = False
-                start_time = time.time()  # Iniciar o tempo ao pressionar a tecla espaço pela primeira vez
+                start_time = time.time() 
     elif winner:
         draw_winner_screen()
         for event in pygame.event.get():
@@ -412,13 +451,8 @@ while running:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     for ball in balls:
                         if ball.in_wait:
-                            ball.speed = [random.choice([-12, 12]), -12]
+                            ball.speed = [0, -12]
                             ball.in_wait = False
-
-            # Verificar se alguma bola saiu da tela e removê-la
-            for ball in balls[:]:  # Iterar sobre uma cópia da lista
-                if ball.rect.top > screen_height:
-                    balls.remove(ball)
 
             keys = pygame.key.get_pressed()
             dx = 0
@@ -488,27 +522,26 @@ while running:
             text = font.render(f"Score: {score}", True, WHITE)
             screen.blit(text, (10, 10))
 
-            # Mostrar o tempo de jogo ao lado do score
             if start_time is not None:  # Verificar se o tempo foi inicializado
                 current_time = time.time() - start_time
                 current_time_str = time.strftime("%M:%S", time.gmtime(current_time))
                 time_text = font.render(f"Time: {current_time_str}", True, WHITE)
-                screen.blit(time_text, (150, 10))  # Posicionado ao lado do score
+                screen.blit(time_text, (150, 10)) 
 
             # Mostrar vidas
             for i in range(lives):
-                screen.blit(heart_image, (screen_width - 50 - i * 30, 1))  # Aumentar tamanho e diminuir distância dos corações
-
+                screen.blit(heart_image, (screen_width - 50 - i * 30, 1))
             pygame.display.flip()
             pygame.time.wait(30)
 
             # Verificar se todas as bolas foram perdidas
-            if not balls:
-                lives -= 1
-                powerups.clear()
+            if all(ball.rect.top > screen_height for ball in balls):  # Verificar se todas as bolas caíram fora da tela
+                balls.clear()  # Remover todas as bolas
+                lives -= 1  # Reduzir uma vida
+                powerups.clear()  # Limpar os power-ups
                 if lives == 0:
                     game_over = True
-                    end_time = time.time()  # Definir o tempo final quando o jogo termina
+                    end_time = time.time()  
                 else:
                     balls.append(Ball(screen_width // 2, paddle.rect.top - 10, 0, 0))  # Adicionar nova bola em espera
 
