@@ -32,7 +32,7 @@ Este é um projeto para a disciplina de Introdução à Programação na Univers
 ### Ferramentas, Bibliotecas, Frameworks e Conceitos de Programação Aplicados no Projeto
 
 - **Linguagem de Programação**: Python
-- **Biblioteca**: Pygame
+- **Biblioteca**: Pygame, Random, Math, Time
 - **Conceitos de Programação**: Orientação a Objetos, Detecção de Colisões, Física de Jogo, Animações, Gerenciamento de Estados
 
 ### Desafios e Aprendizados ao Longo do Projeto
