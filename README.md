@@ -31,7 +31,7 @@ Este é um projeto para a disciplina de Introdução à Programação na Univers
 
 ### Fluxograma Lógico do Código
 
-![Fluxograma Lógico](assets/fluxograma.png)
+![Fluxograma Lógico](images/fluxograma.png)
 
 ### Ferramentas, Bibliotecas, Frameworks e Conceitos de Programação Aplicados no Projeto
 
@@ -49,12 +49,12 @@ Este é um projeto para a disciplina de Introdução à Programação na Univers
 
 <table>
   <tr>
-    <td><img src="assets/captura1.png" alt="Captura de Tela 1" width="300"></td>
-    <td><img src="assets/captura2.png" alt="Captura de Tela 2" width="300"></td>
+    <td><img src="images/captura1.png" alt="Captura de Tela 1" width="300"></td>
+    <td><img src="images/captura2.png" alt="Captura de Tela 2" width="300"></td>
   </tr>
   <tr>
-    <td><img src="assets/captura3.png" alt="Captura de Tela 3" width="300"></td>
-    <td><img src="assets/captura4.png" alt="Captura de Tela 4" width="300"></td>
+    <td><img src="images/captura3.png" alt="Captura de Tela 3" width="300"></td>
+    <td><img src="images/captura4.png" alt="Captura de Tela 4" width="300"></td>
   </tr>
 </table>
 
