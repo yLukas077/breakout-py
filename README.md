@@ -47,7 +47,16 @@ Este é um projeto para a disciplina de Introdução à Programação na Univers
 
 ### Capturas do Jogo
 
-![Captura de Tela](assets/captura.png)
+<table>
+  <tr>
+    <td><img src="assets/captura1.png" alt="Captura de Tela 1" width="300"></td>
+    <td><img src="assets/captura2.png" alt="Captura de Tela 2" width="300"></td>
+  </tr>
+  <tr>
+    <td><img src="assets/captura3.png" alt="Captura de Tela 3" width="300"></td>
+    <td><img src="assets/captura4.png" alt="Captura de Tela 4" width="300"></td>
+  </tr>
+</table>
 
 ---
 

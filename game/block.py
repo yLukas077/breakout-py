@@ -17,10 +17,10 @@ class Block:
         if not self.has_dropped:
             drop_chance = random.randint(1, 100)
             self.has_dropped = True
-            if drop_chance <= 6:
+            if drop_chance <= 5:
                 return PowerUp(self.rect.centerx, self.rect.centery, "extra_ball")
-            elif 46 < drop_chance <= 60:
+            elif 46 < drop_chance <= 47:
                 return PowerUp(self.rect.centerx, self.rect.centery, "multi_ball")
-            elif 60 < drop_chance <= 62:
+            elif 60 < drop_chance <= 63:
                 return PowerUp(self.rect.centerx, self.rect.centery, "enlarge_paddle")
         return None
